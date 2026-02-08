@@ -16,7 +16,7 @@ The project demonstrates an end-to-end ML workflow — from data preprocessing a
 - Version-controlled and published on GitHub  
 
 
-# 🛠️ Tech Stack :
+# Tech Stack :
 
 -  Programming Language: Python  
 -  Machine Learning: Scikit-learn  
