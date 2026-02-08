@@ -23,7 +23,15 @@ The project demonstrates an end-to-end ML workflow — from data preprocessing a
 -  Data Processing: Pandas, NumPy  
 -  Web Framework: Flask  
 -  Frontend: HTML, CSS  
--  Version Control: Git & GitHub  
+-  Version Control: Git & GitHub
+
+# Dashboard Preview :
+
+Below are screenshots of the running dashboard interface:
+
+<img width="1901" height="964" alt="Screenshot 2026-02-08 140823" src="https://github.com/user-attachments/assets/b87a0191-a102-403d-82fe-eb0f555b250c" />
+<img width="1911" height="968" alt="Screenshot 2026-02-08 140312" src="https://github.com/user-attachments/assets/fc791ba9-3df8-4d67-befe-e49b6c8fe01b" />
+
 
 # How to Run Locally :
 
