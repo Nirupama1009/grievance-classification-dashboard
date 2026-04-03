@@ -29,8 +29,8 @@ The project demonstrates an end-to-end ML workflow — from data preprocessing a
 
 Below are screenshots of the running dashboard interface:
 
-<img width="1901" height="964" alt="Screenshot 2026-02-08 140823" src="https://github.com/user-attachments/assets/b87a0191-a102-403d-82fe-eb0f555b250c" />
-<img width="1911" height="968" alt="Screenshot 2026-02-08 140312" src="https://github.com/user-attachments/assets/fc791ba9-3df8-4d67-befe-e49b6c8fe01b" />
+<img width="1895" height="922" alt="Screenshot 2026-04-03 165720" src="https://github.com/user-attachments/assets/b0ceed1a-bc9f-466f-af07-caa7eed94b01" />
+<img width="1883" height="953" alt="Screenshot 2026-04-03 165748" src="https://github.com/user-attachments/assets/6fd1bc88-1b5a-465b-96ea-39ae4af435b6" />
 
 
 # How to Run Locally :
