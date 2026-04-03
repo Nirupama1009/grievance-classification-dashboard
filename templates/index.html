@@ -3,94 +3,470 @@
 <head>
     <title>Grievance Classification Dashboard</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+        :root {
+            --bg-ink: #07111f;
+            --bg-azure: #0f2747;
+            --bg-teal: #0b4d4a;
+            --card-bg: rgba(255, 255, 255, 0.86);
+            --card-strong: rgba(255, 255, 255, 0.96);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0f766e;
+            --accent-strong: #115e59;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --line: rgba(148, 163, 184, 0.35);
+            --table-head: #e2e8f0;
+            --ok-bg: #dcfce7;
+            --ok-text: #166534;
+            --warn-bg: #fef3c7;
+            --warn-text: #92400e;
+            --shadow: 0 28px 70px rgba(2, 8, 23, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            padding: 40px;
+            font-family: 'Manrope', sans-serif;
+            background:
+                radial-gradient(circle at 15% 18%, rgba(56, 189, 248, 0.28), transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(16, 185, 129, 0.22), transparent 24%),
+                radial-gradient(circle at 65% 82%, rgba(250, 204, 21, 0.12), transparent 22%),
+                linear-gradient(160deg, var(--bg-ink) 0%, var(--bg-azure) 42%, #123b52 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            padding: 28px 16px 40px;
+            position: relative;
+            overflow-x: hidden;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 92%);
         }
-        h2 {
-            text-align: center;
+
+        .shell {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
+
+        .hero {
+            color: white;
+            margin-bottom: 20px;
+            padding: 20px 4px 8px;
+            animation: rise 0.55s ease-out;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 14px 0 10px;
+            font-size: clamp(2.1rem, 4vw, 4rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 1.02rem;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: rise 0.6s ease-out;
+        }
+
+        .panel-header {
+            padding: 22px 24px 0;
+        }
+
+        .panel-title {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+
+        .panel-subtitle {
+            margin: 6px 0 0;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .panel-body {
+            padding: 22px 24px 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
         textarea {
             width: 100%;
-            height: 100px;
-            padding: 10px;
-            margin-top: 10px;
+            min-height: 148px;
+            resize: vertical;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 15px 16px;
+            font-family: inherit;
+            font-size: 0.98rem;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.92);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
-        button {
-            margin-top: 15px;
+
+        input[type="text"] {
             width: 100%;
-            padding: 10px;
-            background: #007bff;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 16px;
+            font-family: inherit;
+            font-size: 0.98rem;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.92);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+            margin-bottom: 0;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: rgba(15, 118, 110, 0.7);
+            box-shadow: 0 0 0 5px rgba(15, 118, 110, 0.14);
+            transform: translateY(-1px);
+        }
+
+        .helper {
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 2px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), #0ea5e9);
             color: white;
             border: none;
-            font-size: 16px;
+            font-size: 1rem;
+            font-weight: 800;
             cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            box-shadow: 0 14px 28px rgba(15, 118, 110, 0.25);
         }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background: #e9ecef;
-            text-align: center;
-            font-size: 18px;
+
+        button:hover {
+            transform: translateY(-1px);
+            filter: saturate(1.08);
+            box-shadow: 0 16px 32px rgba(15, 118, 110, 0.32);
         }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .support-card {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 118, 110, 0.88));
+            color: white;
+        }
+
+        .support-card .panel-title,
+        .support-card .panel-subtitle,
+        .support-card label,
+        .support-card .helper {
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .history-section {
+            margin-top: 18px;
+            padding: 22px 24px 24px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+
+        .section-copy {
+            margin: 6px 0 0;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .table-wrap {
+            overflow: auto;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 18px;
+            background: white;
+            margin-top: 16px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
         }
+
         th, td {
-            padding: 8px;
-            border: 1px solid #ccc;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.22);
             text-align: left;
+            vertical-align: top;
         }
+
         th {
-            background-color: #dee2e6;
+            background: linear-gradient(180deg, #e2e8f0, #dbe4f0);
+            font-weight: 800;
+            color: #1e293b;
+            position: sticky;
+            top: 0;
+        }
+
+        tbody tr:nth-child(even) td {
+            background: rgba(248, 250, 252, 0.96);
+        }
+
+        tbody tr:hover td {
+            background: rgba(15, 118, 110, 0.06);
+        }
+
+        .empty-state {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(15, 118, 110, 0.08);
+            color: #0f172a;
+        }
+
+        .result {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 18px;
+            background: var(--ok-bg);
+            color: var(--ok-text);
+            text-align: left;
+            font-size: 1rem;
+            border: 1px solid #86efac;
+        }
+
+        .error {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px 10px 24px;
+            }
+
+            .hero {
+                padding: 10px 2px 16px;
+            }
+
+            .hero h1 {
+                line-height: 1.05;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel,
+            .section {
+                border-radius: 20px;
+            }
+
+            .panel-header,
+            .panel-body,
+            .history-section {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            th, td {
+                padding: 10px 12px;
+                font-size: 0.92rem;
+            }
+
         }
     </style>
 </head>
 <body>
+<div class="shell">
+    <section class="hero">
+        <span class="eyebrow">Context-aware grievance intelligence</span>
+        <h1>Grievance classification with location insight</h1>
+        <p>Enter a complaint and a client-provided location to classify the issue and see simple runtime patterns. The interface is tuned for quick review, clean feedback, and practical analysis.</p>
+    </section>
 
-<div class="card">
-    <h2>Public Grievance Classifier</h2>
+    <div class="grid">
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Classify a new complaint</h2>
+                <p class="panel-subtitle">Use the client-entered location as context. Nothing here is written back to the dataset file.</p>
+            </div>
+            <div class="panel-body">
+                <form method="POST">
+                    <div class="form-grid">
+                        <div>
+                            <label>Complaint</label>
+                            <textarea name="complaint" required placeholder="Describe the issue...">{{ complaint_text }}</textarea>
+                            <div class="helper">Example: drainage blocked, water leakage, power cut, road damage.</div>
+                        </div>
 
-    <form method="POST">
-        <label>Enter complaint:</label>
-        <textarea name="complaint" required></textarea>
-        <button type="submit">Classify</button>
-    </form>
+                        <div>
+                            <label>Location</label>
+                            <input type="text" name="location" required placeholder="City, ward, or area" value="{{ location_text }}">
+                            <div class="helper">Enter the place from the client. This is used only at runtime.</div>
+                        </div>
 
-    {% if prediction %}
-    <div class="result">
-        Predicted Category: <b>{{ prediction }}</b>
+                        <div class="button-row">
+                            <button type="submit">Classify complaint</button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if error_message %}
+                <div class="error">{{ error_message }}</div>
+                {% endif %}
+
+                {% if prediction %}
+                <div class="result">
+                    Predicted category: <b>{{ prediction }}</b>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <aside class="panel support-card">
+            <div class="panel-header">
+                <h2 class="panel-title">What this system is doing</h2>
+                <p class="panel-subtitle">A simple, practical pipeline with better readability and clearer results.</p>
+            </div>
+            <div class="panel-body">
+                <label>Current approach</label>
+                <div class="helper">Complaint + location at prediction time.</div>
+
+                <label style="margin-top: 18px;">Runtime insight</label>
+                <div class="helper">Region-wise issue patterns are built from user submissions during this session.</div>
+
+                <label style="margin-top: 18px;">Model note</label>
+                <div class="helper">The current model is the best-performing simple baseline saved from training.</div>
+
+                <label style="margin-top: 18px;">Practical value</label>
+                <div class="helper">Easy to explain, easy to demo, and easy to extend later.</div>
+            </div>
+        </aside>
     </div>
-    {% endif %}
 
-    {% if history %}
-    <h3 style="margin-top:30px;">Prediction History</h3>
+    <section class="panel history-section">
+        <h3 class="section-title">Complaint history</h3>
+        <p class="section-copy">This shows the complaints entered during the current session along with the predicted category.</p>
 
-    <table>
-        <tr>
-            <th>Complaint</th>
-            <th>Predicted Category</th>
-        </tr>
-
-        {% for item in history %}
-        <tr>
-            <td>{{ item.complaint }}</td>
-            <td>{{ item.prediction }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        {% if history %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Complaint</th>
+                        <th>Location</th>
+                        <th>Predicted Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in history %}
+                    <tr>
+                        <td>{{ item.complaint }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.prediction }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">No complaint history yet. Submit a complaint to start tracking it here.</div>
+        {% endif %}
+    </section>
 </div>
 
 </body>
